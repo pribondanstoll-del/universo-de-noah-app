@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
 
 void main() {
   runApp(const UniversoDeNoahApp());
@@ -13,7 +14,6 @@ class UniversoDeNoahApp extends StatelessWidget {
       title: 'Universo de Noah',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Nunito',
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF1A73E8),
         ),
@@ -44,6 +44,16 @@ class _SplashScreenState extends State<SplashScreen>
     );
     _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
+
+    // Navega para Home após 3 segundos
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
+    });
   }
 
   @override
@@ -62,10 +72,8 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Estrelas decorativas
               const Text('✨', style: TextStyle(fontSize: 32)),
               const SizedBox(height: 16),
-              // Logo placeholder
               Container(
                 width: 140,
                 height: 140,
@@ -85,7 +93,6 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
               const SizedBox(height: 24),
-              // Nome do app
               const Text(
                 'Universo de Noah',
                 style: TextStyle(
@@ -104,7 +111,6 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
               const SizedBox(height: 48),
-              // Loading indicator
               const CircularProgressIndicator(
                 color: Color(0xFF8BB4F8),
                 strokeWidth: 2,
