@@ -1,3 +1,4 @@
+import 'mapa_fases_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -44,7 +45,12 @@ class HomeScreen extends StatelessWidget {
                       titulo: 'Lições',
                       subtitulo: 'Aprender inglês',
                       cor: const Color(0xFF1A73E8),
-                      onTap: () {},
+onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => const MapaFasesScreen()),
+  );
+},
                     ),
                     _MenuCard(
                       emoji: '🎵',
