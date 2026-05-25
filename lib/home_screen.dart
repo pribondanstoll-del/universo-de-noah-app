@@ -1,4 +1,4 @@
-import 'mapa_fases_screen.dart';
+import 'niveis_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
 onTap: () {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (_) => const MapaFasesScreen()),
+    MaterialPageRoute(builder: (_) => const NiveisScreen()),
   );
 },
                     ),
