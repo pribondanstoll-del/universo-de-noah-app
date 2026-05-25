@@ -1,3 +1,4 @@
+import 'progresso_service.dart';
 import 'package:flutter/material.dart';
 import 'dados_conteudo.dart';
 import 'licao_screen.dart';
@@ -14,6 +15,21 @@ class FasesScreen extends StatefulWidget {
 class _FasesScreenState extends State<FasesScreen> {
   int _faseAtual = 0;
   Map<int, Map<int, int>> _progresso = {};
+  bool _carregando = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarProgresso();
+  }
+
+  Future<void> _carregarProgresso() async {
+    final progresso = await ProgressoService.buscarProgressoNivel(widget.nivel.numero);
+    setState(() {
+      _progresso = progresso;
+      _carregando = false;
+    });
+  }
 
   bool _faseCompleta(int faseIndex) {
     final fase = widget.nivel.fases[faseIndex];
@@ -45,7 +61,14 @@ class _FasesScreenState extends State<FasesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   if (_carregando) {
+  return const Scaffold(
+    backgroundColor: Color(0xFF0D1B4B),
+    body: Center(child: CircularProgressIndicator(color: Color(0xFF8BB4F8))),
+  );
+}
+
+return Scaffold(
       backgroundColor: const Color(0xFF0D1B4B),
       appBar: AppBar(
         backgroundColor: const Color(0xFF0D1B4B),
@@ -132,14 +155,14 @@ class _FasesScreenState extends State<FasesScreen> {
                               ),
                             );
                             if (resultado != null) {
-                              setState(() {
-                                _progresso[faseIndex] ??= {};
-                                if ((resultado as int) >
-                                    (_progresso[faseIndex]![licaoIndex] ?? 0)) {
-                                  _progresso[faseIndex]![licaoIndex] = resultado;
-                                }
-                              });
-                            }
+  await ProgressoService.salvarEstrelas(
+    nivel: widget.nivel.numero,
+    fase: faseIndex,
+    licao: licaoIndex,
+    estrelas: resultado as int,
+  );
+  await _carregarProgresso();
+}
                           }
                         : null,
                     child: Container(
@@ -149,7 +172,7 @@ class _FasesScreenState extends State<FasesScreen> {
                         color: licaoDesbloqueada ? cor : const Color(0xFF1E2D5A),
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: licaoDesbloqueada
-                            ? [BoxShadow(color: cor.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))]
+                            ? [BoxShadow(color: cor.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
                             : [],
                       ),
                       child: Row(
