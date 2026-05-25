@@ -1,11 +1,44 @@
-import 'niveis_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'niveis_screen.dart';
+import 'perfil_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _nome = '';
+  String _avatar = '🦁';
+  bool _carregando = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarPerfil();
+  }
+
+  Future<void> _carregarPerfil() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _nome = prefs.getString('nome_crianca') ?? '';
+      _avatar = prefs.getString('avatar_crianca') ?? '🦁';
+      _carregando = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_carregando) {
+      return const Scaffold(
+        backgroundColor: Color(0xFF0D1B4B),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF8BB4F8))),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFF0D1B4B),
       body: SafeArea(
@@ -14,22 +47,65 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Saudação
-              const Text(
-                'Olá, explorador! 👋',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                'O que vamos aprender hoje?',
-                style: TextStyle(
-                  color: Color(0xFF8BB4F8),
-                  fontSize: 16,
-                ),
+              // Header com perfil
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _nome.isEmpty
+                              ? 'Olá, explorador! 👋'
+                              : 'Olá, $_nome! 👋',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Text(
+                          'O que vamos aprender hoje?',
+                          style: TextStyle(
+                            color: Color(0xFF8BB4F8),
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Avatar clicável
+                  GestureDetector(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PerfilScreen(),
+                        ),
+                      );
+                      _carregarPerfil();
+                    },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1A73E8),
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF1A73E8).withOpacity(0.4),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(_avatar,
+                            style: const TextStyle(fontSize: 32)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 32),
 
@@ -45,12 +121,10 @@ class HomeScreen extends StatelessWidget {
                       titulo: 'Lições',
                       subtitulo: 'Aprender inglês',
                       cor: const Color(0xFF1A73E8),
-onTap: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => const NiveisScreen()),
-  );
-},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const NiveisScreen()),
+                      ),
                     ),
                     _MenuCard(
                       emoji: '🎵',
