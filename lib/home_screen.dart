@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'niveis_screen.dart';
 import 'perfil_screen.dart';
+import 'progresso_screen.dart';
+import 'pais_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,9 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _nome.isEmpty
-                              ? 'Olá, explorador! 👋'
-                              : 'Olá, $_nome! 👋',
+                          _nome.isEmpty ? 'Olá, explorador! 👋' : 'Olá, $_nome! 👋',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 26,
@@ -74,14 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  // Avatar clicável
                   GestureDetector(
                     onTap: () async {
                       await Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const PerfilScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const PerfilScreen()),
                       );
                       _carregarPerfil();
                     },
@@ -100,8 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       child: Center(
-                        child: Text(_avatar,
-                            style: const TextStyle(fontSize: 32)),
+                        child: Text(_avatar, style: const TextStyle(fontSize: 32)),
                       ),
                     ),
                   ),
@@ -145,9 +141,41 @@ class _HomeScreenState extends State<HomeScreen> {
                       titulo: 'Progresso',
                       subtitulo: 'Ver conquistas',
                       cor: const Color(0xFFF9A825),
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ProgressoScreen()),
+                      ),
                     ),
                   ],
+                ),
+              ),
+
+              // Botão Painel dos Pais
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PaisScreen()),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E2D5A),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white12),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('👨‍👩‍👧', style: TextStyle(fontSize: 20)),
+                      SizedBox(width: 8),
+                      Text('Painel dos Pais',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 ),
               ),
             ],
