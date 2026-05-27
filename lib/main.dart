@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
+import 'perfil_screen.dart';
+import 'progresso_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ProgressoService.inicializar();
   runApp(const UniversoDeNoahApp());
 }
 
@@ -45,12 +50,19 @@ class _SplashScreenState extends State<SplashScreen>
     _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
 
-    // Navega para Home após 3 segundos
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
+      if (!mounted) return;
+      final prefs = await SharedPreferences.getInstance();
+      final perfilCriado = prefs.getBool('perfil_criado') ?? false;
+
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          MaterialPageRoute(
+            builder: (_) => perfilCriado
+                ? const HomeScreen()
+                : const PerfilScreen(primeiroAcesso: true),
+          ),
         );
       }
     });

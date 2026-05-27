@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'home_screen.dart';
 
 class PerfilScreen extends StatefulWidget {
   final bool primeiroAcesso;
@@ -54,7 +55,16 @@ class _PerfilScreenState extends State<PerfilScreen> {
     await prefs.setBool('perfil_criado', true);
     setState(() => _salvando = false);
 
-    if (mounted) Navigator.pop(context, true);
+    if (!mounted) return;
+
+    if (widget.primeiroAcesso) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
+    } else {
+      Navigator.pop(context, true);
+    }
   }
 
   @override
@@ -157,9 +167,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                               : const Color(0xFF0D1B4B),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: selecionado
-                                ? Colors.white
-                                : Colors.transparent,
+                            color: selecionado ? Colors.white : Colors.transparent,
                             width: 2,
                           ),
                         ),

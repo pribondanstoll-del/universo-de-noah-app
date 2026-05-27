@@ -4,6 +4,7 @@ import 'niveis_screen.dart';
 import 'perfil_screen.dart';
 import 'progresso_screen.dart';
 import 'pais_screen.dart';
+import 'videos_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -134,7 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       titulo: 'Vídeos',
                       subtitulo: 'Assistir e aprender',
                       cor: const Color(0xFFE53935),
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const VideosScreen()),
+                      ),
                     ),
                     _MenuCard(
                       emoji: '⭐',
@@ -143,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       cor: const Color(0xFFF9A825),
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const ProgressoScreen()),
+                        MaterialPageRoute(builder: (_) => ProgressoScreen()),
                       ),
                     ),
                   ],

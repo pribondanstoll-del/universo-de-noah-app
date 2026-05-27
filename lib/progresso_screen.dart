@@ -87,7 +87,6 @@ class _ProgressoScreenState extends State<ProgressoScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Cards de resumo
           Row(
             children: [
               Expanded(child: _cardResumo('⭐', '${_totalEstrelas()}', 'Estrelas')),
@@ -98,12 +97,9 @@ class _ProgressoScreenState extends State<ProgressoScreen> {
             ],
           ),
           const SizedBox(height: 24),
-
-          // Progresso por fase
           const Text('Detalhes por fase',
               style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
-
           ...List.generate(nivel1.fases.length, (faseIndex) {
             final fase = nivel1.fases[faseIndex];
             final cores = [
@@ -123,7 +119,6 @@ class _ProgressoScreenState extends State<ProgressoScreen> {
               ),
               child: Column(
                 children: [
-                  // Header da fase
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -144,8 +139,6 @@ class _ProgressoScreenState extends State<ProgressoScreen> {
                       ],
                     ),
                   ),
-
-                  // Lições
                   ...List.generate(fase.licoes.length, (licaoIndex) {
                     final licao = fase.licoes[licaoIndex];
                     final estrelas = _progresso[faseIndex]?[licaoIndex] ?? 0;
@@ -172,8 +165,7 @@ class _ProgressoScreenState extends State<ProgressoScreen> {
                                 ),
                                 Text(
                                   '${licao.palavrasNovas.length} palavras',
-                                  style: const TextStyle(
-                                      color: Colors.white38, fontSize: 12),
+                                  style: const TextStyle(color: Colors.white38, fontSize: 12),
                                 ),
                               ],
                             ),
@@ -210,8 +202,7 @@ class _ProgressoScreenState extends State<ProgressoScreen> {
           Text(emoji, style: const TextStyle(fontSize: 28)),
           const SizedBox(height: 4),
           Text(valor,
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+              style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
           Text(label,
               style: const TextStyle(color: Color(0xFF8BB4F8), fontSize: 12)),
         ],
