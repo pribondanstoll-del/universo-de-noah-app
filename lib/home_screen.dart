@@ -5,6 +5,7 @@ import 'perfil_screen.dart';
 import 'progresso_screen.dart';
 import 'pais_screen.dart';
 import 'videos_screen.dart';
+import 'musicas_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -128,7 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       titulo: 'Músicas',
                       subtitulo: 'Cantar e aprender',
                       cor: const Color(0xFF7B2FBE),
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const MusicasScreen()),
+                      ),
                     ),
                     _MenuCard(
                       emoji: '🎬',
