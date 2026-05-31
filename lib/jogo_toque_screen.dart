@@ -52,7 +52,6 @@ class _JogoToqueScreenState extends State<JogoToqueScreen>
   void _gerarRodadas() {
     final palavras = widget.palavras.toList()..shuffle();
     _rodadas = palavras.map((palavra) {
-      // Pega 3 distratores aleatórios
       final outras = widget.palavras
           .where((p) => p.ingles != palavra.ingles)
           .toList()
@@ -117,7 +116,11 @@ class _JogoToqueScreenState extends State<JogoToqueScreen>
             ),
             const SizedBox(height: 12),
             Text(
-              _acertos == total ? 'PERFEITO!' : _acertos >= total * 0.7 ? 'MUITO BOM!' : 'CONTINUE ASSIM!',
+              _acertos == total
+                  ? 'PERFEITO!'
+                  : _acertos >= total * 0.7
+                      ? 'MUITO BOM!'
+                      : 'CONTINUE ASSIM!',
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 26,
@@ -203,174 +206,182 @@ class _JogoToqueScreenState extends State<JogoToqueScreen>
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            // Barra de progresso
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: LinearProgressIndicator(
-                value: progresso,
-                backgroundColor: const Color(0xFF1E2D5A),
-                valueColor: AlwaysStoppedAnimation(widget.cor),
-                minHeight: 10,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Rodada ${_rodadaAtual + 1} de ${_rodadas.length}',
-              style: const TextStyle(color: Color(0xFF8BB4F8), fontSize: 14),
-            ),
-            const SizedBox(height: 24),
-
-            // Pergunta
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: widget.cor,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: widget.cor.withOpacity(0.4),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  const Text(
-                    '🔊 Toque na imagem correta!',
-                    style: TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    correta.ingles,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 42,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '/${correta.pronuncia}/',
-                    style: const TextStyle(
-                        color: Colors.white70, fontSize: 16, fontStyle: FontStyle.italic),
-                  ),
-                ],
-              ),
-            ),
-
-            // Feedback
-            if (_respondido)
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                margin: const EdgeInsets.only(top: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: _respostaSelecionada == correta.ingles
-                      ? const Color(0xFF1B5E20)
-                      : const Color(0xFF7F0000),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  _respostaSelecionada == correta.ingles
-                      ? "${MensagensNoah.acerto[_acertos % MensagensNoah.acerto.length]}\n${MensagensNoah.acertoTrad[_acertos % MensagensNoah.acertoTrad.length]}"
-                      : "${MensagensNoah.erro[_erros % MensagensNoah.erro.length]}\n${MensagensNoah.erroTrad[_erros % MensagensNoah.erroTrad.length]}",
-                  style: const TextStyle(color: Colors.white, fontSize: 13),
-                  textAlign: TextAlign.center,
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+          child: Column(
+            children: [
+              // Barra de progresso
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: LinearProgressIndicator(
+                  value: progresso,
+                  backgroundColor: const Color(0xFF1E2D5A),
+                  valueColor: AlwaysStoppedAnimation(widget.cor),
+                  minHeight: 10,
                 ),
               ),
-
-            const SizedBox(height: 20),
-
-            // Grade de opções
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                children: rodada.opcoes.map((opcao) {
-                  Color corFundo = const Color(0xFF1E2D5A);
-                  if (_respondido) {
-                    if (opcao.ingles == correta.ingles) {
-                      corFundo = const Color(0xFF34A853);
-                    } else if (opcao.ingles == _respostaSelecionada) {
-                      corFundo = const Color(0xFFE53935);
-                    }
-                  }
-
-                  return GestureDetector(
-                    onTap: _respondido ? null : () => _responder(opcao),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      decoration: BoxDecoration(
-                        color: corFundo,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: _respostaSelecionada == opcao.ingles
-                              ? Colors.white
-                              : Colors.transparent,
-                          width: 2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: corFundo.withOpacity(0.4),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(opcao.emoji,
-                              style: const TextStyle(fontSize: 52)),
-                          const SizedBox(height: 8),
-                          Text(
-                            opcao.portugues,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
+              const SizedBox(height: 8),
+              Text(
+                'Rodada ${_rodadaAtual + 1} de ${_rodadas.length}',
+                style: const TextStyle(color: Color(0xFF8BB4F8), fontSize: 14),
               ),
-            ),
+              const SizedBox(height: 16),
 
-            // Botão próxima
-            if (_respondido)
-              SizedBox(
+              // Pergunta
+              Container(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: widget.cor,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                  ),
-                  onPressed: _proxima,
-                  child: Text(
-                    _rodadaAtual < _rodadas.length - 1
-                        ? 'Próxima →'
-                        : 'Ver resultado! 🌟',
-                    style: const TextStyle(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: widget.cor,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: widget.cor.withOpacity(0.4),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      '🔊 Toque na imagem correta!',
+                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      correta.ingles,
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
-                  ),
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '/${correta.pronuncia}/',
+                      style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ],
                 ),
               ),
-          ],
+
+              // Feedback
+              if (_respondido)
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: _respostaSelecionada == correta.ingles
+                        ? const Color(0xFF1B5E20)
+                        : const Color(0xFF7F0000),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    _respostaSelecionada == correta.ingles
+                        ? "${MensagensNoah.acerto[_acertos % MensagensNoah.acerto.length]}\n${MensagensNoah.acertoTrad[_acertos % MensagensNoah.acertoTrad.length]}"
+                        : "${MensagensNoah.erro[_erros % MensagensNoah.erro.length]}\n${MensagensNoah.erroTrad[_erros % MensagensNoah.erroTrad.length]}",
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+              const SizedBox(height: 12),
+
+              // Grade de opções
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  children: rodada.opcoes.map((opcao) {
+                    Color corFundo = const Color(0xFF1E2D5A);
+                    if (_respondido) {
+                      if (opcao.ingles == correta.ingles) {
+                        corFundo = const Color(0xFF34A853);
+                      } else if (opcao.ingles == _respostaSelecionada) {
+                        corFundo = const Color(0xFFE53935);
+                      }
+                    }
+
+                    return GestureDetector(
+                      onTap: _respondido ? null : () => _responder(opcao),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        decoration: BoxDecoration(
+                          color: corFundo,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: _respostaSelecionada == opcao.ingles
+                                ? Colors.white
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: corFundo.withOpacity(0.4),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(opcao.emoji,
+                                style: const TextStyle(fontSize: 44)),
+                            const SizedBox(height: 6),
+                            Text(
+                              opcao.portugues,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              // Botão próxima
+              if (_respondido)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: widget.cor,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                      ),
+                      onPressed: _proxima,
+                      child: Text(
+                        _rodadaAtual < _rodadas.length - 1
+                            ? 'Próxima →'
+                            : 'Ver resultado! 🌟',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

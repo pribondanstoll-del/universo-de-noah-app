@@ -32,7 +32,6 @@ class _JogoMemoriaScreenState extends State<JogoMemoriaScreen> {
   }
 
   void _iniciarJogo() {
-    // Cria pares: carta com palavra em inglês + carta com emoji
     List<_Carta> cartas = [];
     final palavras = widget.palavras.take(4).toList();
 
@@ -80,7 +79,6 @@ class _JogoMemoriaScreenState extends State<JogoMemoriaScreen> {
       final segunda = _cartas[index];
 
       if (primeira.parId == segunda.parId) {
-        // Par encontrado!
         setState(() {
           _cartas[_primeiraCartaIndex!].acertada = true;
           _cartas[index].acertada = true;
@@ -96,7 +94,6 @@ class _JogoMemoriaScreenState extends State<JogoMemoriaScreen> {
           });
         }
       } else {
-        // Par errado — vira de volta
         Future.delayed(const Duration(milliseconds: 800), () {
           setState(() {
             _cartas[_primeiraCartaIndex!].virada = false;
@@ -215,93 +212,98 @@ class _JogoMemoriaScreenState extends State<JogoMemoriaScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // Info
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _infoCard('🎯', '$_tentativas', 'Tentativas'),
-                _infoCard('✅', '$_pares', 'Pares'),
-                _infoCard('❓', '${widget.palavras.take(4).length - _pares}', 'Restam'),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // Grade de cartas
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: _cartas.length,
-                itemBuilder: (context, index) {
-                  final carta = _cartas[index];
-                  return GestureDetector(
-                    onTap: () => _tocarCarta(index),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      decoration: BoxDecoration(
-                        color: carta.acertada
-                            ? const Color(0xFF34A853)
-                            : carta.virada
-                                ? widget.cor
-                                : const Color(0xFF1E2D5A),
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: carta.virada || carta.acertada
-                            ? [BoxShadow(
-                                color: (carta.acertada
-                                        ? const Color(0xFF34A853)
-                                        : widget.cor)
-                                    .withOpacity(0.4),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              )]
-                            : [],
-                      ),
-                      child: Center(
-                        child: carta.virada || carta.acertada
-                            ? Text(
-                                carta.conteudo,
-                                style: TextStyle(
-                                  fontSize: carta.tipo == 'emoji' ? 32 : 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              )
-                            : const Text('❓',
-                                style: TextStyle(fontSize: 28)),
-                      ),
-                    ),
-                  );
-                },
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+          child: Column(
+            children: [
+              // Info
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _infoCard('🎯', '$_tentativas', 'Tentativas'),
+                  _infoCard('✅', '$_pares', 'Pares'),
+                  _infoCard('❓', '${widget.palavras.take(4).length - _pares}', 'Restam'),
+                ],
               ),
-            ),
+              const SizedBox(height: 20),
 
-            // Botão reiniciar
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: widget.cor),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+              // Grade de cartas — maior e mais espaçada
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemCount: _cartas.length,
+                  itemBuilder: (context, index) {
+                    final carta = _cartas[index];
+                    return GestureDetector(
+                      onTap: () => _tocarCarta(index),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        decoration: BoxDecoration(
+                          color: carta.acertada
+                              ? const Color(0xFF34A853)
+                              : carta.virada
+                                  ? widget.cor
+                                  : const Color(0xFF1E2D5A),
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: carta.virada || carta.acertada
+                              ? [
+                                  BoxShadow(
+                                    color: (carta.acertada
+                                            ? const Color(0xFF34A853)
+                                            : widget.cor)
+                                        .withOpacity(0.4),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  )
+                                ]
+                              : [],
+                        ),
+                        child: Center(
+                          child: carta.virada || carta.acertada
+                              ? Text(
+                                  carta.conteudo,
+                                  style: TextStyle(
+                                    fontSize: carta.tipo == 'emoji' ? 28 : 13,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                )
+                              : const Text('❓',
+                                  style: TextStyle(fontSize: 24)),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                onPressed: _iniciarJogo,
-                icon: const Icon(Icons.refresh, color: Colors.white70),
-                label: const Text('Reiniciar',
-                    style: TextStyle(color: Colors.white70, fontSize: 15)),
               ),
-            ),
-            const SizedBox(height: 8),
-          ],
+
+              // Botão reiniciar
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: widget.cor),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14)),
+                  ),
+                  onPressed: _iniciarJogo,
+                  icon: const Icon(Icons.refresh, color: Colors.white70),
+                  label: const Text('Reiniciar',
+                      style: TextStyle(color: Colors.white70, fontSize: 15)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -309,21 +311,21 @@ class _JogoMemoriaScreenState extends State<JogoMemoriaScreen> {
 
   Widget _infoCard(String emoji, String valor, String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: const Color(0xFF1E2D5A),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 20)),
+          Text(emoji, style: const TextStyle(fontSize: 18)),
           Text(valor,
               style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold)),
           Text(label,
-              style: const TextStyle(color: Colors.white38, fontSize: 11)),
+              style: const TextStyle(color: Colors.white38, fontSize: 10)),
         ],
       ),
     );

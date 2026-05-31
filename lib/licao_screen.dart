@@ -274,11 +274,14 @@ class _LicaoScreenState extends State<LicaoScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            _botaoAvancar(
-              _indexAtual < palavras.length - 1 ? 'Próxima palavra →' : 'Vamos praticar! 🎮',
-              _avancar,
-            ),
+            const SizedBox(height: 12),
+SafeArea(
+  top: false,
+  child: _botaoAvancar(
+    _indexAtual < palavras.length - 1 ? 'Próxima palavra →' : 'Vamos praticar! 🎮',
+    _avancar,
+  ),
+),
           ],
         ),
       ),
@@ -639,7 +642,7 @@ class _LicaoScreenState extends State<LicaoScreen>
         ),
         actions: acoes,
       ),
-      body: body,
+      body: SafeArea(top: false, child: body),
     );
   }
 

@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color(0xFF0D1B4B),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _nome.isEmpty ? 'Olá, explorador! 👋' : 'Olá, $_nome! 👋',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 26,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           'O que vamos aprender hoje?',
                           style: TextStyle(
                             color: Color(0xFF8BB4F8),
-                            fontSize: 15,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -85,11 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       _carregarPerfil();
                     },
                     child: Container(
-                      width: 60,
-                      height: 60,
+                      width: 56,
+                      height: 56,
                       decoration: BoxDecoration(
                         color: const Color(0xFF1A73E8),
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF1A73E8).withOpacity(0.4),
@@ -99,20 +99,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       child: Center(
-                        child: Text(_avatar, style: const TextStyle(fontSize: 32)),
+                        child: Text(_avatar, style: const TextStyle(fontSize: 28)),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
 
               // Cards de navegação
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 1.1,
                   children: [
                     _MenuCard(
                       emoji: '📚',
@@ -159,14 +160,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Botão Painel dos Pais
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               GestureDetector(
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const PaisScreen()),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                   decoration: BoxDecoration(
                     color: const Color(0xFF1E2D5A),
                     borderRadius: BorderRadius.circular(16),
@@ -186,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 8),
             ],
           ),
         ),
@@ -216,37 +218,37 @@ class _MenuCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: cor,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: cor.withOpacity(0.4),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 48)),
-              const SizedBox(height: 12),
+              Text(emoji, style: const TextStyle(fontSize: 40)),
+              const SizedBox(height: 8),
               Text(
                 titulo,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               Text(
                 subtitulo,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white70,
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
             ],

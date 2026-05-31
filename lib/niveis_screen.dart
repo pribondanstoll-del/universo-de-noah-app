@@ -65,12 +65,12 @@ class NiveisScreen extends StatelessWidget {
               : [],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(20),
           child: Row(
             children: [
               Text(
                 desbloqueado ? nivel.emoji : '🔒',
-                style: const TextStyle(fontSize: 48),
+                style: const TextStyle(fontSize: 40),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -81,7 +81,7 @@ class NiveisScreen extends StatelessWidget {
                       'Nível ${nivel.numero}',
                       style: TextStyle(
                         color: desbloqueado ? Colors.white70 : Colors.white24,
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -89,7 +89,7 @@ class NiveisScreen extends StatelessWidget {
                       nivel.titulo,
                       style: TextStyle(
                         color: desbloqueado ? Colors.white : Colors.white38,
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -97,25 +97,25 @@ class NiveisScreen extends StatelessWidget {
                       nivel.descricao,
                       style: TextStyle(
                         color: desbloqueado ? Colors.white70 : Colors.white24,
-                        fontSize: 13,
+                        fontSize: 12,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Row(
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 8,
                       children: [
                         Text(
                           '${nivel.fases.length} fases',
                           style: TextStyle(
                             color: desbloqueado ? Colors.white70 : Colors.white24,
-                            fontSize: 12,
+                            fontSize: 11,
                           ),
                         ),
-                        const SizedBox(width: 12),
                         Text(
-                          '🏆 Medalha: ${nivel.medalha}',
+                          '🏆 ${nivel.medalha}',
                           style: TextStyle(
                             color: desbloqueado ? Colors.white70 : Colors.white24,
-                            fontSize: 12,
+                            fontSize: 11,
                           ),
                         ),
                       ],
@@ -126,6 +126,7 @@ class NiveisScreen extends StatelessWidget {
               Icon(
                 desbloqueado ? Icons.arrow_forward_ios : Icons.lock,
                 color: desbloqueado ? Colors.white : Colors.white24,
+                size: 20,
               ),
             ],
           ),
@@ -143,21 +144,21 @@ class NiveisScreen extends StatelessWidget {
         border: Border.all(color: Colors.white12),
       ),
       child: const Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(20),
         child: Row(
           children: [
-            Text('🚀', style: TextStyle(fontSize: 48)),
+            Text('🚀', style: TextStyle(fontSize: 40)),
             SizedBox(width: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Mais níveis chegando!',
-                  style: TextStyle(color: Colors.white38, fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white38, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'Novos conteúdos em breve...',
-                  style: TextStyle(color: Colors.white24, fontSize: 13),
+                  style: TextStyle(color: Colors.white24, fontSize: 12),
                 ),
               ],
             ),
