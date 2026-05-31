@@ -201,7 +201,7 @@ const nivel1 = Nivel(
           palavrasRevisao: [],
           miniJogos: [
             MiniJogo(tipo: 'toque', titulo: 'Escuta e Toca', descricao: 'Noah fala a saudação. Toque na imagem correta!', emoji: '🎧'),
-            MiniJogo(tipo: 'quiz', titulo: 'Qual Momento É Esse?', descricao: 'Noah está chegando ou saindo? Escolha a saudação certa!', emoji: '🎭'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de saudações!', emoji: '🃏'),
           ],
           frases: [
             'Hello! My name is Noah. — Olá! Meu nome é Noah.',
@@ -230,7 +230,7 @@ const nivel1 = Nivel(
           ],
           miniJogos: [
             MiniJogo(tipo: 'toque', titulo: 'Que Hora É?', descricao: 'Cenas do dia aparecem. Escolha a saudação certa!', emoji: '🌞'),
-            MiniJogo(tipo: 'quiz', titulo: 'Troca de Gentilezas', descricao: 'Noah fez algo legal. Como você responde?', emoji: '🤝'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de saudações!', emoji: '🃏'),
           ],
           frases: [
             'Good afternoon! How are you? — Boa tarde! Como você está?',
@@ -269,7 +269,7 @@ const nivel1 = Nivel(
           ],
           miniJogos: [
             MiniJogo(tipo: 'toque', titulo: 'Pinta com o Noah', descricao: 'Ouça a cor e toque na tinta certa!', emoji: '🎨'),
-            MiniJogo(tipo: 'quiz', titulo: 'Caça a Cor', descricao: 'Encontre tudo que é da cor certa!', emoji: '🔍'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de cores!', emoji: '🃏'),
           ],
           frases: [
             'The sky is blue. — O céu é azul.',
@@ -297,8 +297,8 @@ const nivel1 = Nivel(
             Palavra(ingles: 'Yellow', portugues: 'Amarelo', emoji: '🟡', pronuncia: 'YEH-loh', audioFile: 'yellow'),
           ],
           miniJogos: [
-            MiniJogo(tipo: 'memoria', titulo: 'Arco-íris do Noah', descricao: 'Arraste cada cor para o lugar certo!', emoji: '🌈'),
-            MiniJogo(tipo: 'toque', titulo: 'Diz a Cor!', descricao: 'Que cor é essa? Toque na resposta certa!', emoji: '🎤'),
+            MiniJogo(tipo: 'toque', titulo: 'Arco-íris do Noah', descricao: 'Toque na cor certa!', emoji: '🌈'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de cores!', emoji: '🃏'),
           ],
           frases: [
             "Noah's shirt is orange! — A camiseta do Noah é laranja!",
@@ -325,8 +325,8 @@ const nivel1 = Nivel(
             Palavra(ingles: 'Pink', portugues: 'Rosa', emoji: '🌸', pronuncia: 'PINK', audioFile: 'pink'),
           ],
           miniJogos: [
-            MiniJogo(tipo: 'quiz', titulo: 'De Que Cor É?', descricao: 'Objetos aparecem. Escolha a cor certa!', emoji: '📦'),
-            MiniJogo(tipo: 'memoria', titulo: 'Quadro do Noah', descricao: 'Complete a pintura com as cores certas!', emoji: '🖌️'),
+            MiniJogo(tipo: 'toque', titulo: 'De Que Cor É?', descricao: 'Objetos aparecem. Escolha a cor certa!', emoji: '📦'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de cores!', emoji: '🃏'),
           ],
           frases: [
             'The cat is black. — O gato é preto.',
@@ -366,7 +366,7 @@ const nivel1 = Nivel(
           ],
           miniJogos: [
             MiniJogo(tipo: 'toque', titulo: 'Conta com o Noah', descricao: 'Noah joga frutas na tela. Conte e toque no número certo!', emoji: '🧮'),
-            MiniJogo(tipo: 'quiz', titulo: 'Qual Número É Esse?', descricao: 'Ouça e toque na palavra certa!', emoji: '📱'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de números!', emoji: '🃏'),
           ],
           frases: [
             'I have two cats. — Eu tenho dois gatos.',
@@ -395,8 +395,8 @@ const nivel1 = Nivel(
             Palavra(ingles: 'Five', portugues: 'Cinco', emoji: '5️⃣', pronuncia: 'FAIV', audioFile: 'five'),
           ],
           miniJogos: [
-            MiniJogo(tipo: 'quiz', titulo: 'Dado do Noah', descricao: 'Noah joga dados. Some e responda em inglês!', emoji: '🎲'),
-            MiniJogo(tipo: 'toque', titulo: 'Corrida dos Números', descricao: 'Toque no número que Noah falou antes que desapareça!', emoji: '🏃'),
+            MiniJogo(tipo: 'toque', titulo: 'Dado do Noah', descricao: 'Noah joga dados. Some e responda em inglês!', emoji: '🎲'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de números!', emoji: '🃏'),
           ],
           frases: [
             'There are seven days in a week. — Há sete dias em uma semana.',
@@ -435,7 +435,7 @@ const nivel1 = Nivel(
           ],
           miniJogos: [
             MiniJogo(tipo: 'toque', titulo: 'Que Animal É Esse?', descricao: 'Ouça o som do animal e toque no correto!', emoji: '🔊'),
-            MiniJogo(tipo: 'memoria', titulo: 'Memória dos Animais', descricao: 'Encontre os pares de cartas!', emoji: '🃏'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de animais!', emoji: '🃏'),
           ],
           frases: [
             'I have a dog and a cat. — Eu tenho um cachorro e um gato.',
@@ -463,8 +463,8 @@ const nivel1 = Nivel(
             Palavra(ingles: 'Bird', portugues: 'Pássaro', emoji: '🐦', pronuncia: 'BERD', audioFile: 'bird'),
           ],
           miniJogos: [
-            MiniJogo(tipo: 'quiz', titulo: 'Fazenda do Noah', descricao: 'Arraste cada animal para o lugar correto!', emoji: '🏕️'),
-            MiniJogo(tipo: 'toque', titulo: 'Imita o Animal!', descricao: 'Que animal é esse? Toque na resposta!', emoji: '🎤'),
+            MiniJogo(tipo: 'toque', titulo: 'Fazenda do Noah', descricao: 'Que animal é esse? Toque na resposta!', emoji: '🏕️'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de animais!', emoji: '🃏'),
           ],
           frases: [
             'The cow says moo! — A vaca faz muuu!',
@@ -502,8 +502,8 @@ const nivel1 = Nivel(
             Palavra(ingles: 'Rabbit', portugues: 'Coelho', emoji: '🐰', pronuncia: 'RAB-it', audioFile: 'rabbit'),
           ],
           miniJogos: [
-            MiniJogo(tipo: 'quiz', titulo: 'Mercadinho do Noah', descricao: 'Selecione as frutas certas da lista!', emoji: '🛒'),
-            MiniJogo(tipo: 'toque', titulo: 'De Que Cor É a Fruta?', descricao: 'Combine a fruta com a cor certa!', emoji: '🎨'),
+            MiniJogo(tipo: 'toque', titulo: 'Mercadinho do Noah', descricao: 'Selecione as frutas certas da lista!', emoji: '🛒'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de frutas!', emoji: '🃏'),
           ],
           frases: [
             'The apple is red. — A maçã é vermelha.',
@@ -531,8 +531,8 @@ const nivel1 = Nivel(
             Palavra(ingles: 'Grape', portugues: 'Uva', emoji: '🍇', pronuncia: 'GREIP', audioFile: 'grape'),
           ],
           miniJogos: [
-            MiniJogo(tipo: 'quiz', titulo: 'Faz o Suco!', descricao: 'Arraste as frutas certas para o liquidificador!', emoji: '🍹'),
-            MiniJogo(tipo: 'toque', titulo: 'Qual Fruta Sou Eu?', descricao: 'Noah dá dicas. Adivinhe a fruta!', emoji: '❓'),
+            MiniJogo(tipo: 'toque', titulo: 'Faz o Suco!', descricao: 'Arraste as frutas certas para o liquidificador!', emoji: '🍹'),
+            MiniJogo(tipo: 'memoria', titulo: 'Jogo da Memória', descricao: 'Encontre os pares de frutas!', emoji: '🃏'),
           ],
           frases: [
             'Noah loves watermelon! — Noah adora melancia!',
