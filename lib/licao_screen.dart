@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dados_conteudo.dart';
+import 'jogo_memoria_screen.dart';
 
 enum EtapaLicao { revisao, apresentacao, minijogo, quiz, recompensa }
 
@@ -324,25 +325,59 @@ class _LicaoScreenState extends State<LicaoScreen>
                           textAlign: TextAlign.center),
                     ),
                     const SizedBox(height: 32),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: widget.cor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: widget.cor, width: 1),
+                    if (jogo.tipo != 'memoria')
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: widget.cor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: widget.cor, width: 1),
+                        ),
+                        child: const Text('🎬 Mini-jogo em desenvolvimento',
+                            style: TextStyle(color: Colors.white70, fontSize: 14)),
                       ),
-                      child: const Text('🎬 Mini-jogo em desenvolvimento',
-                          style: TextStyle(color: Colors.white70, fontSize: 14)),
-                    ),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            _botaoAvancar(
-              _indexAtual < jogos.length - 1 ? 'Próximo jogo →' : 'Ir para o Quiz! 📝',
-              _avancar,
-            ),
+            if (jogo.tipo == 'memoria')
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: widget.cor,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                  ),
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => JogoMemoriaScreen(
+                          palavras: widget.licao.palavrasNovas,
+                          cor: widget.cor,
+                          titulo: jogo.titulo,
+                        ),
+                      ),
+                    );
+                    _avancar();
+                  },
+                  child: const Text(
+                    '🃏 Jogar Memória!',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            else
+              _botaoAvancar(
+                _indexAtual < jogos.length - 1 ? 'Próximo jogo →' : 'Ir para o Quiz! 📝',
+                _avancar,
+              ),
           ],
         ),
       ),
@@ -483,9 +518,7 @@ class _LicaoScreenState extends State<LicaoScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                aprovado
-                    ? (estrelas == 3 ? '🏆' : '🥈')
-                    : '💪',
+                aprovado ? (estrelas == 3 ? '🏆' : '🥈') : '💪',
                 style: const TextStyle(fontSize: 80),
               ),
               const SizedBox(height: 16),
