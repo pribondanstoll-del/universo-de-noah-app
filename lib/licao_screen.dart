@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dados_conteudo.dart';
 import 'jogo_memoria_screen.dart';
+import 'jogo_toque_screen.dart';
 
 enum EtapaLicao { revisao, apresentacao, minijogo, quiz, recompensa }
 
@@ -324,18 +325,6 @@ class _LicaoScreenState extends State<LicaoScreen>
                           style: const TextStyle(color: Color(0xFF8BB4F8), fontSize: 16),
                           textAlign: TextAlign.center),
                     ),
-                    const SizedBox(height: 32),
-                    if (jogo.tipo != 'memoria')
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: widget.cor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: widget.cor, width: 1),
-                        ),
-                        child: const Text('🎬 Mini-jogo em desenvolvimento',
-                            style: TextStyle(color: Colors.white70, fontSize: 14)),
-                      ),
                   ],
                 ),
               ),
@@ -364,13 +353,41 @@ class _LicaoScreenState extends State<LicaoScreen>
                     );
                     _avancar();
                   },
-                  child: const Text(
-                    '🃏 Jogar Memória!',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
+                  child: const Text('🃏 Jogar Memória!',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold)),
+                ),
+              )
+            else if (jogo.tipo == 'toque')
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: widget.cor,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
                   ),
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => JogoToqueScreen(
+                          palavras: widget.licao.palavrasNovas,
+                          cor: widget.cor,
+                          titulo: jogo.titulo,
+                        ),
+                      ),
+                    );
+                    _avancar();
+                  },
+                  child: const Text('👆 Jogar Toque!',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold)),
                 ),
               )
             else
@@ -480,13 +497,18 @@ class _LicaoScreenState extends State<LicaoScreen>
                         color: corFundo,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: _respostaSelecionada == opcao ? Colors.white : Colors.transparent,
+                          color: _respostaSelecionada == opcao
+                              ? Colors.white
+                              : Colors.transparent,
                           width: 2,
                         ),
                       ),
                       child: Center(
                         child: Text(opcao,
-                            style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center),
                       ),
                     ),
