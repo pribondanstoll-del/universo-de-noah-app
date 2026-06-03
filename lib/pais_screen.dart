@@ -1,7 +1,9 @@
+import 'perfil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dados_conteudo.dart';
 import 'progresso_service.dart';
+import 'pin_screen.dart';
 
 class PaisScreen extends StatefulWidget {
   const PaisScreen({super.key});
@@ -15,11 +17,47 @@ class _PaisScreenState extends State<PaisScreen> {
   String _avatar = '🦁';
   Map<int, Map<int, int>> _progresso = {};
   bool _carregando = true;
+  bool _pinVerificado = false;
 
   @override
   void initState() {
     super.initState();
-    _carregarDados();
+    _verificarPin();
+  }
+
+  Future<void> _verificarPin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final pinSalvo = prefs.getString('pin_pais') ?? '';
+
+    if (pinSalvo.isEmpty) {
+      // Ainda não tem PIN — pede para criar
+      final resultado = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const PinScreen(configurando: true),
+        ),
+      );
+      if (resultado == true) {
+        setState(() => _pinVerificado = true);
+        _carregarDados();
+      } else {
+        if (mounted) Navigator.pop(context);
+      }
+    } else {
+      // Já tem PIN — pede para verificar
+      final resultado = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const PinScreen(configurando: false),
+        ),
+      );
+      if (resultado == true) {
+        setState(() => _pinVerificado = true);
+        _carregarDados();
+      } else {
+        if (mounted) Navigator.pop(context);
+      }
+    }
   }
 
   Future<void> _carregarDados() async {
@@ -85,7 +123,7 @@ class _PaisScreenState extends State<PaisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_carregando) {
+    if (!_pinVerificado || _carregando) {
       return const Scaffold(
         backgroundColor: Color(0xFF0D1B4B),
         body: Center(
@@ -319,6 +357,52 @@ class _PaisScreenState extends State<PaisScreen> {
 
           const SizedBox(height: 24),
 
+          // Configurações
+          const Text(
+            'Configurações',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFF1E2D5A),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                _itemConfig(
+                  icone: '🔒',
+                  titulo: 'Alterar PIN',
+                  subtitulo: 'Mude o PIN do painel dos pais',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PinScreen(configurando: true),
+                    ),
+                  ),
+                ),
+                const Divider(color: Colors.white12, height: 1),
+               _itemConfig(
+  icone: '👤',
+  titulo: 'Perfil da criança',
+  subtitulo: 'Editar nome e avatar',
+  onTap: () async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PerfilScreen()),
+    );
+    _carregarDados();
+  },
+), 
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+
           // Dica para os pais
           Container(
             padding: const EdgeInsets.all(20),
@@ -354,6 +438,43 @@ class _PaisScreenState extends State<PaisScreen> {
           ),
           const SizedBox(height: 32),
         ],
+      ),
+    );
+  }
+
+  Widget _itemConfig({
+    required String icone,
+    required String titulo,
+    required String subtitulo,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Text(icone, style: const TextStyle(fontSize: 28)),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(titulo,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  Text(subtitulo,
+                      style: const TextStyle(
+                          color: Colors.white54, fontSize: 12)),
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios,
+                color: Colors.white38, size: 16),
+          ],
+        ),
       ),
     );
   }

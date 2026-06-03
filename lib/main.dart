@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'firebase_options.dart';
 import 'home_screen.dart';
 import 'perfil_screen.dart';
+import 'login_screen.dart';
+import 'onboarding_screen.dart';
+import 'auth_service.dart';
 import 'progresso_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await ProgressoService.inicializar();
   runApp(const UniversoDeNoahApp());
 }
@@ -52,19 +58,42 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 3), () async {
       if (!mounted) return;
-      final prefs = await SharedPreferences.getInstance();
-      final perfilCriado = prefs.getBool('perfil_criado') ?? false;
 
-      if (mounted) {
+      final prefs = await SharedPreferences.getInstance();
+      final onboardingVisto = prefs.getBool('onboarding_visto') ?? false;
+
+      // Primeira vez — mostra onboarding
+      if (!onboardingVisto) {
+        await prefs.setBool('onboarding_visto', true);
+        if (!mounted) return;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (_) => perfilCriado
-                ? const HomeScreen()
-                : const PerfilScreen(primeiroAcesso: true),
-          ),
+          MaterialPageRoute(builder: (_) => const OnboardingScreen()),
         );
+        return;
       }
+
+      // Não está logado — vai para login
+      if (!AuthService.estaLogado) {
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
+        return;
+      }
+
+      // Está logado — verifica perfil
+      final perfilCriado = prefs.getBool('perfil_criado') ?? false;
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => perfilCriado
+              ? const HomeScreen()
+              : const PerfilScreen(primeiroAcesso: true),
+        ),
+      );
     });
   }
 

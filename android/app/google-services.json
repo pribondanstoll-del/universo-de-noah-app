@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1035260170011",
+    "project_id": "universo-de-noah",
+    "storage_bucket": "universo-de-noah.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035260170011:android:b710ccd582a8dfa9310dbe",
+        "android_client_info": {
+          "package_name": "com.example.universo_de_noah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_KLCdGYNbRv16QGkygRkXKdom4n8uX2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
