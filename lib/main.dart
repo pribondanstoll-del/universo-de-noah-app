@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
       duration: const Duration(seconds: 2),
     );
-    _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _fadeAnim = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 3), () async {
@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen>
         return;
       }
 
-      // Não está logado — vai para login
+      // Verifica se está logado (Firebase persiste automaticamente)
       if (!AuthService.estaLogado) {
         if (!mounted) return;
         Navigator.pushReplacement(
@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen>
         return;
       }
 
-      // Está logado — verifica perfil
+      // Está logado — verifica perfil da criança
       final perfilCriado = prefs.getBool('perfil_criado') ?? false;
       if (!mounted) return;
       Navigator.pushReplacement(
@@ -97,6 +97,8 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
+  late Animation<double> _fadeAnim;
+
   @override
   void dispose() {
     _controller.dispose();
@@ -109,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: const Color(0xFF0D1B4B),
       body: Center(
         child: FadeTransition(
-          opacity: _fadeIn,
+          opacity: _fadeAnim,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

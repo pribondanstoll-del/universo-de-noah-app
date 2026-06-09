@@ -1,9 +1,10 @@
-import 'perfil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dados_conteudo.dart';
 import 'progresso_service.dart';
 import 'pin_screen.dart';
+import 'perfil_screen.dart';
+import 'controle_tempo_screen.dart';
 
 class PaisScreen extends StatefulWidget {
   const PaisScreen({super.key});
@@ -30,7 +31,6 @@ class _PaisScreenState extends State<PaisScreen> {
     final pinSalvo = prefs.getString('pin_pais') ?? '';
 
     if (pinSalvo.isEmpty) {
-      // Ainda não tem PIN — pede para criar
       final resultado = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -44,7 +44,6 @@ class _PaisScreenState extends State<PaisScreen> {
         if (mounted) Navigator.pop(context);
       }
     } else {
-      // Já tem PIN — pede para verificar
       final resultado = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -386,18 +385,30 @@ class _PaisScreenState extends State<PaisScreen> {
                   ),
                 ),
                 const Divider(color: Colors.white12, height: 1),
-               _itemConfig(
-  icone: '👤',
-  titulo: 'Perfil da criança',
-  subtitulo: 'Editar nome e avatar',
-  onTap: () async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const PerfilScreen()),
-    );
-    _carregarDados();
-  },
-), 
+                _itemConfig(
+                  icone: '⏱️',
+                  titulo: 'Controle de tempo',
+                  subtitulo: 'Limite diário e horário permitido',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ControleTernoScreen(),
+                    ),
+                  ),
+                ),
+                const Divider(color: Colors.white12, height: 1),
+                _itemConfig(
+                  icone: '👤',
+                  titulo: 'Perfil da criança',
+                  subtitulo: 'Editar nome e avatar',
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const PerfilScreen()),
+                    );
+                    _carregarDados();
+                  },
+                ),
               ],
             ),
           ),

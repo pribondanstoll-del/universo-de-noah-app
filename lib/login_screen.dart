@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _senhaController = TextEditingController();
   bool _carregando = false;
   bool _mostrarSenha = false;
+  bool _lembrarDeMim = true;
   String? _erro;
 
   @override
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(erro ?? 'E-mail de redefinição enviado!'),
+        content: Text(erro ?? 'E-mail de redefinição enviado! Verifique sua caixa de entrada.'),
         backgroundColor:
             erro != null ? const Color(0xFFE53935) : const Color(0xFF34A853),
       ),
@@ -178,19 +179,36 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 8),
 
-              // Esqueceu a senha
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: _redefinirSenha,
-                  child: const Text(
-                    'Esqueceu a senha?',
-                    style: TextStyle(
-                        color: Color(0xFF8BB4F8), fontSize: 14),
+              // Lembrar + Esqueceu
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _lembrarDeMim,
+                        activeColor: const Color(0xFF1A73E8),
+                        checkColor: Colors.white,
+                        side: const BorderSide(color: Colors.white38),
+                        onChanged: (v) =>
+                            setState(() => _lembrarDeMim = v ?? true),
+                      ),
+                      const Text('Manter conectado',
+                          style: TextStyle(
+                              color: Colors.white54, fontSize: 13)),
+                    ],
                   ),
-                ),
+                  GestureDetector(
+                    onTap: _redefinirSenha,
+                    child: const Text(
+                      'Esqueceu a senha?',
+                      style: TextStyle(
+                          color: Color(0xFF8BB4F8), fontSize: 13),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
 
               // Botão entrar
               SizedBox(
@@ -232,6 +250,31 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.bold)),
                   ),
                 ],
+              ),
+              const SizedBox(height: 32),
+
+              // Aviso sobre sessão
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E2D5A),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  children: [
+                    Text('📱', style: TextStyle(fontSize: 20)),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'No celular, você só precisará fazer login uma vez — o app mantém sua sessão automaticamente.',
+                        style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 12,
+                            height: 1.4),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
